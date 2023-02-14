@@ -9,10 +9,9 @@ import model.entities.Reservation;
 
 public class Program {
     public static void main(String[] args) throws ParseException {
-        
+
         Scanner en = new Scanner(System.in);
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-
 
         System.out.print("Número do quarto: ");
         int roomNumber = en.nextInt();
@@ -20,11 +19,10 @@ public class Program {
         Date checkIn = sdf.parse(en.next());
         System.out.print("Data do check-out (dd/MM/yyyy): ");
         Date checkOut = sdf.parse(en.next());
-        
+
         if (!checkOut.after(checkIn)) {
             System.out.println("Erro na reserva: A data de check-out deve ser posterior à data de check-in");
-        }
-        else{
+        } else {
             Reservation reservation = new Reservation(roomNumber, checkIn, checkOut);
             System.out.println("Reserva: " + reservation);
 
@@ -35,15 +33,10 @@ public class Program {
             System.out.print("Data do check-out (dd/MM/yyyy): ");
             checkOut = sdf.parse(en.next());
 
-            Date now = new Date();
-            if (checkIn.before(now) || checkOut.before(now)) {
-                System.out.println("Erro na reserva: As datas da reserva para atualização devem ser datas futuras");
-            }
-            else if (!checkOut.after(checkIn)){
-                System.out.println("Erro na reserva: A data de check-out deve ser posterior à data de check-in");
-            }
-            else {
-                reservation.updateDate(checkIn, checkOut);
+            String error = reservation.updateDate(checkIn, checkOut);
+            if (error != null) {
+                System.out.println("Erro na reserva: " + error);
+            } else {
                 System.out.println("Reserva: " + reservation);
             }
 
